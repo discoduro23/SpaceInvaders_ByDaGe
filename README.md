@@ -1,2 +1,2 @@
-# Asteroids
-Small Javascript Asteroids Game 
+# Space Invaders
+Small Javascript Space Invaders Game
