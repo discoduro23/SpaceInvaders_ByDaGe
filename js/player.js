@@ -6,12 +6,12 @@ class Player {
     constructor(x, y, scale) {
         this.x = x;
         this.y = y;
-        this.speed = 5;
+        this.speed = 500;
         this.image = new Image();
-        this.image.src = "images/Player.png";
-        image.onload = () => {
-			this.width = 100;
-			this.height = 100;
+        this.image.src = "./images/Player.png";
+        this.image.onload = () => {
+			this.width = this.image.width * scale;
+			this.height = this.image.height * scale;
         };
     }
 
@@ -24,14 +24,14 @@ class Player {
 
     update(dt, keysDown) {
         //movement
-        if (keysDown[37]) {
+        if (37 in keysDown || 65 in keysDown) {
             this.x -= this.speed * dt;
         }
-        if (keysDown[39]) {
+        if(39 in keysDown || 68 in keysDown) {
             this.x += this.speed * dt;
         }
         //Shooting
-        if (keysDown[32]) {
+        if (32 in keysDown) {
             bullets.push(new Bullet(this.x + this.width / 2, this.y));
         }
         //Collision with the canvas
@@ -42,7 +42,7 @@ class Player {
             this.x = canvas.width - this.width;
         }
     }
+
+
     
 }
-
-//Render of the player
