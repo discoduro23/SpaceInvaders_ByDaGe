@@ -15,8 +15,8 @@ class Bullet {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     update(dt, speedgame) {
-        if(this.mode) this.y -= this.speed * dt * speedgame;
-        else this.y += this.speed * dt * speedgame;
+        if(this.mode) this.y -= this.speed * dt * speedgame * 2;
+        else this.y += this.speed * dt * speedgame ;
     }
 }
 

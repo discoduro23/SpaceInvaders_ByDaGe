@@ -44,7 +44,7 @@ class Alien {
     }
 
     start() {
-        this.interval = setInterval(this.updateImage.bind(this), 1000);
+        this.interval = setInterval(this.updateImage.bind(this), 400);
     }
 
     update(dt , speedgame) {
@@ -60,14 +60,7 @@ class Alien {
 
     move(dt, speedgame) {
         
-        //Collision with the canvas
-        if (this.x < 0) {
-            this.x = 0;
-        }
-        if (this.x + this.width > canvas.width) {
-            this.x = canvas.width - this.width;
-        }
-
+        
         // if we are going to the right and we reach the right edge of the screen, change direction and go down one "level"
         if (this.x + this.width >= canvas.width && direction == 1) {
             direction = -1;
@@ -88,4 +81,61 @@ class Alien {
 
 }
 
+class AlienExplosion{
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = 48;
+        this.height = 24;
+
+        this.image = new Image();
+        this.image.src = "./images/Explosion.png";
+
+        this.time = 0.5;
+        this.active = true;
+
+        setTimeout(function() {
+            this.active = false;
+        }
+        .bind(this), 50);
+    }
+
+    render() {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+}
+
+function AlienShoot(aliensMatrix) {
+    if(AlienCanShoot && !isAliensMatrixClear(aliensMatrix)){
+        AlienCanShoot = false;
+        var alien = getRandomAlien(aliensMatrix);
+
+        if(alien != null){
+            bullets.push(new Bullet(alien.x + alien.width / 2, alien.y + alien.height, false));
+        }
+        setTimeout(function() {
+            AlienCanShoot = true;
+        }, 1000);    
+    }
+}
+
+function getRandomAlien(aliensMatrix, counter = 0) {
+    // Set a maximum number of tries
+    const maxTries = 100;
+
+    randomAlien = null;
+    randomColumn = Math.floor(Math.random() * 10);
+
+    for (let i = 0; i < aliensMatrix.length; i++) {
+        if(aliensMatrix[i][randomColumn].active){
+            randomAlien = aliensMatrix[i][randomColumn];
+        }
+    }
+
+    if (randomAlien == null && counter < maxTries) {
+        // Increase the counter and call the function again
+        randomAlien = getRandomAlien(aliensMatrix, counter + 1);
+    }
+    return randomAlien;
+}
 

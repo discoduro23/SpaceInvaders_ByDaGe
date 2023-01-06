@@ -8,7 +8,7 @@ class Player {
         this.y = y;
         this.canshoot = true;
         this.speed = 500;
-        this.fireSpeed = 50;
+        this.fireSpeed = 500;
         this.lives = 3;
         this.image = new Image();
         this.image.src = "./images/Player.png";
@@ -16,6 +16,8 @@ class Player {
 			this.width = this.image.width * scale;
 			this.height = this.image.height * scale;
         };
+
+        this.score = 0;
     }
 
     render() {
