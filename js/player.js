@@ -48,6 +48,7 @@ class Player {
                 this.canshoot = true;
             }, this.fireSpeed / speedgame);
             bullets.push(new Bullet(this.x + this.width / 2, this.y, true));
+            sndShoot.play();
         }
     }
 

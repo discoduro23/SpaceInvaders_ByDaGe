@@ -7,11 +7,11 @@ canvas.style.position = "absolute"; //Set canvas position
 document.body.appendChild(canvas); //Add canvas to body
 
 //Game variables
-var gameOver = false;
+var gameOver = false
+var imgBackground = new Image();
+imgBackground.src = "./images/background.png";
 
-//Black Background
-ctx.fillStyle = "black";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+paintBackground();
 
 var update = function (dt) {
 
@@ -51,6 +51,41 @@ var update = function (dt) {
         }
     }
 
+    if(isSoundBGTone){
+        isSoundBGTone = false;
+
+        console.log("Tone: " + toneIterator);
+
+        //Play sound
+        if(toneIterator == 0){
+            sndTone1.play();
+        }
+        else if(toneIterator == 1){
+            sndTone2.play();
+        }
+        else if(toneIterator == 2){
+            sndTone3.play();
+        }
+        else if(toneIterator == 3){
+            sndTone4.play();
+        }
+        else{
+            sndTone1.play();
+        }
+
+        toneIterator++;
+        if(toneIterator > 3){
+            toneIterator = 0;
+        }
+
+
+        setTimeout(() => {
+            
+            isSoundBGTone = true;
+        },1000/speedgame);
+        
+    }
+
 
     checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
     checkCollisionBetweenBulletsAndPlayer(player, bullets);
@@ -59,30 +94,9 @@ var update = function (dt) {
     
 };
 
-function createAliens () {
-
-        for (let i = 0; i < 11; i++) {
-            var xpos = i * 60;
-            var ypos = 60;
-
-            aliensMatrix[0][i] = new Alien(xpos, ypos, 48, 24, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
-
-            aliensMatrix[1][i] = new Alien(xpos, ypos + 40, 48, 24, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
-            aliensMatrix[2][i] = new Alien(xpos, ypos + 80, 48, 24, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
-
-            aliensMatrix[3][i] = new Alien(xpos, ypos + 120, 48, 24, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
-            aliensMatrix[4][i] = new Alien(xpos, ypos + 160, 48, 24, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
-
-        }
-
-    //Start all the aliens
-    for (let i = 0; i < aliensMatrix.length; i++) {
-        for (let j = 0; j < aliensMatrix[i].length; j++) {
-            aliensMatrix[i][j].start();
-        }
-    }
-
-
+function paintBackground(){
+    //Use image as background
+    ctx.drawImage(imgBackground, 0, 0, canvas.width, canvas.height);
 };
 
 var StartNewGame = function () {
@@ -120,8 +134,7 @@ var render = function () {
     //Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    paintBackground();
     
     //Render player
     player.render();
@@ -162,7 +175,7 @@ var main = function () {
         }   
     
         //Game Over
-        if(player.lives <= 0 ){
+        if(player.lives <= 0 || isBellowCanvas){
             clearAlienMatrix(aliensMatrix);
             bullets = [];
             render();
@@ -184,6 +197,7 @@ var main = function () {
             //Wait 10 seconds to restart the game
             setTimeout(function() {
                 gameOver = false;
+                isBellowCanvas = false;
                 start();
             }, 10000);
         } 
@@ -209,12 +223,27 @@ requestAnimationFrame = w.requestAnimationFrame ||
 
         
 //Game objects
-var player = new Player(canvas.width / 2, canvas.height - 120, 3);
+var player = new Player(canvas.width / 2, canvas.height - 120, 4);
 var bullets = [];
 var aliensMatrix = createMatrix(5, 11);
 var AlienCanShoot = true;
 var speedgame = 1;
 var alienExplosion = [];
+
+var sndTone1 = new Audio("./sounds/fastinvader1.wav");
+sndTone1.volume = 0.3;
+var sndTone2 = new Audio("./sounds/fastinvader2.wav");
+sndTone2.volume = 0.3;
+var sndTone3 = new Audio("./sounds/fastinvader3.wav");
+sndTone3.volume = 0.3;
+var sndTone4 = new Audio("./sounds/fastinvader4.wav");
+sndTone4.volume = 0.3;
+
+var sndEnemyKilled = new Audio("./sounds/invaderkilled.wav");
+sndEnemyKilled.volume = 0.05;
+
+var sndShoot = new Audio("./sounds/shoot.wav");
+sndShoot.volume = 0.1;
 
 //Lets play
 var then = Date.now();

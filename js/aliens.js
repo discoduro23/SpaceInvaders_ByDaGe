@@ -5,6 +5,7 @@
 
 let direction = 1;
 let needToGoDown = false;
+let isBellowCanvas = false;
 
 class Alien {
     constructor(x, y, width, height, animFrame1, animFrame2) {
@@ -20,6 +21,8 @@ class Alien {
         this.animFrame1.src = animFrame1;
         this.animFrame2 = new Image();
         this.animFrame2.src = animFrame2;
+
+        this.isAnimating = true;
 
     }
     render() {
@@ -44,7 +47,7 @@ class Alien {
     }
 
     start() {
-        this.interval = setInterval(this.updateImage.bind(this), 400);
+        
     }
 
     update(dt , speedgame) {
@@ -52,6 +55,15 @@ class Alien {
             this.move(dt , speedgame);
         }
         
+        if(this.isAnimating){
+            this.isAnimating = false;
+            setTimeout(() => {
+                this.updateImage();
+                this.isAnimating = true;
+            },1000/speedgame);
+            
+        }
+
     }
 
     toGoDown() {
@@ -71,6 +83,13 @@ class Alien {
             direction = 1;
             needToGoDown = true;
         }
+
+        //Check if the alien is below the canvas
+        if (this.y + this.height >= canvas.height) {
+            //Game over
+            isBellowCanvas = true;
+        }
+
         // move the alien
         this.x += this.speed * direction * dt * speedgame * speedgame;
 
@@ -104,6 +123,33 @@ class AlienExplosion{
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
+
+
+function createAliens () {
+
+    for (let i = 0; i < 11; i++) {
+        var xpos = i * 60;
+        var ypos = 60;
+
+        aliensMatrix[0][i] = new Alien(xpos, ypos, 48, 24, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
+
+        aliensMatrix[1][i] = new Alien(xpos, ypos + 40, 48, 24, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+        aliensMatrix[2][i] = new Alien(xpos, ypos + 80, 48, 24, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+
+        aliensMatrix[3][i] = new Alien(xpos, ypos + 120, 48, 24, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+        aliensMatrix[4][i] = new Alien(xpos, ypos + 160, 48, 24, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+
+    }
+
+//Start all the aliens
+for (let i = 0; i < aliensMatrix.length; i++) {
+    for (let j = 0; j < aliensMatrix[i].length; j++) {
+        aliensMatrix[i][j].start();
+    }
+}
+
+
+};
 
 function AlienShoot(aliensMatrix) {
     if(AlienCanShoot && !isAliensMatrixClear(aliensMatrix)){
