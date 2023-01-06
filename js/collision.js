@@ -40,3 +40,22 @@ function checkCollisionBetweenBulletsAndPlayer(player, bullets) {
         }
     }
 }
+
+function checkCollisionBetweenBulletsAndCover(cover, bullets) {
+    //Check collision between bullets and cover
+    
+    for (let i = 0; i < cover.length; i++) {
+        for (let k = 0; k < cover[i].length; k++) {
+            if(cover[i][k].active){
+                console.log("Collision");
+                for (let j = 0; j < bullets.length; j++) {
+                    if (collision(cover[i][k], bullets[j])) {
+                        
+                        bullets.splice(j, 1);
+                        cover[i][k].active = false;
+                    }
+                }
+            }
+        }
+    }
+}

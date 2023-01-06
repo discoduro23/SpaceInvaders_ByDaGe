@@ -89,6 +89,7 @@ var update = function (dt) {
 
     checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
     checkCollisionBetweenBulletsAndPlayer(player, bullets);
+    checkCollisionBetweenBulletsAndCover(covers, bullets);
     AlienShoot(aliensMatrix);
 
     
@@ -105,7 +106,7 @@ var StartNewGame = function () {
     player.lives = 3;
     player.x = canvas.width / 2 - 20;
     player.y = canvas.height - 120;
-
+    createCovers(covers);
     createAliens();
 };
 
@@ -154,6 +155,11 @@ var render = function () {
     //Render alienExplosion
     for (var i = 0; i < alienExplosion.length; i++) {
         alienExplosion[i].render();
+    }
+
+    //Render covers
+    for (var i = 0; i < covers.length; i++) {
+        covers[i].render();
     }
 
 };
@@ -229,6 +235,7 @@ var aliensMatrix = createMatrix(5, 11);
 var AlienCanShoot = true;
 var speedgame = 1;
 var alienExplosion = [];
+var covers = [];
 
 var sndTone1 = new Audio("./sounds/fastinvader1.wav");
 sndTone1.volume = 0.3;
