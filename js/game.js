@@ -14,11 +14,14 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var update = function (dt) {
     //Update player
-    player.update(dt, keysDown);
+
+    
+
+    player.update(dt, keysDown, speedgame);
 
     //Update bullets
     for (var i = 0; i < bullets.length; i++) {
-        bullets[i].update(dt);
+        bullets[i].update(dt, speedgame);
         if(bullets[i].y < 0 || bullets[i].y > canvas.height){
             bullets.splice(i, 1);
         }
@@ -27,14 +30,11 @@ var update = function (dt) {
     //Update aliens using
     for (var i = 0; i < aliensMatrix.length; i++) {
         for (var j = 0; j < aliensMatrix[i].length; j++) {
-            aliensMatrix[i][j].update(dt);
+            aliensMatrix[i][j].update(dt, speedgame);
         }
     }
 
-    //Game Win
-    if(isAliensMatrixClear(aliensMatrix)){
-        StartNewGame();
-    }
+    
 
     if(needToGoDown){
         for (var i = 0; i < aliensMatrix.length; i++) {
@@ -46,21 +46,42 @@ var update = function (dt) {
         needToGoDown = false;
     }
     checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
+    checkCollisionBetweenBulletsAndPlayer(player, bullets);
+    AlienShoot();
+
+    //Game Win
+    if(isAliensMatrixClear(aliensMatrix)){
+        StartNewGame();
+        speedgame -= 0.5;
+    }
+
+    //Game Over
+    if(player.lives <= 0){
+        clearMatrix(aliensMatrix);
+        player.lives = 3;
+        player.x = canvas.width / 2 - player.width / 2;
+        player.y = canvas.height - 120;
+
+        start();
+    }
+
+    //console.log("Lives: " + player.lives);
+    console.log("Speed: " + speedgame);
 };
 
 function createAliens () {
 
-        for (let i = 0; i < 10; i++) {
-            var xpos = i * 40;
+        for (let i = 0; i < 11; i++) {
+            var xpos = i * 55;
+            var ypos = 60;
 
-            aliensMatrix[0][i] = new Alien(xpos, 30, 40, 20, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
-            aliensMatrix[1][i] = new Alien(xpos, 60, 40, 20, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
+            aliensMatrix[0][i] = new Alien(xpos, ypos, 40, 20, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
 
-            aliensMatrix[2][i] = new Alien(xpos, 90, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
-            aliensMatrix[3][i] = new Alien(xpos, 120, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+            aliensMatrix[1][i] = new Alien(xpos, ypos + 40, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+            aliensMatrix[2][i] = new Alien(xpos, ypos + 80, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
 
-            aliensMatrix[4][i] = new Alien(xpos, 150, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
-            aliensMatrix[5][i] = new Alien(xpos, 180, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+            aliensMatrix[3][i] = new Alien(xpos, ypos + 120, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+            aliensMatrix[4][i] = new Alien(xpos, ypos + 160, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
 
         }
 
@@ -74,6 +95,37 @@ function createAliens () {
 
 };
 
+function AlienShoot() {
+    if(AlienCanShoot){
+    AlienCanShoot = false;
+    var alien = getRandomAlien(aliensMatrix);
+    if(alien != null){
+        var bullet = new Bullet(alien.x + alien.width / 2, alien.y + alien.height, false);
+        bullets.push(bullet);
+    }
+    setTimeout(function() {
+        AlienCanShoot = true;
+    }, 1000);    
+}
+}
+
+function getRandomAlien(aliensMatrix) {
+    var randomAlien = null;
+    var randomColumn = Math.floor(Math.random() * 10);
+
+    for (let i = 0; i < aliensMatrix.length; i++) {
+        if(aliensMatrix[i][randomColumn].active){
+            randomAlien = aliensMatrix[i][randomColumn];
+        }
+    }
+
+    
+    if (randomAlien == null) {
+        randomAlien = getRandomAlien(aliensMatrix);
+    }
+    return randomAlien;
+}
+
 var StartNewGame = function () {
     bullets = [];
     createAliens();
@@ -81,7 +133,8 @@ var StartNewGame = function () {
 
 //Start game
 var start = function () {
-   StartNewGame();
+    speedgame = 1;
+    StartNewGame();
 };
 
 var keysDown = {};
@@ -145,11 +198,11 @@ requestAnimationFrame = w.requestAnimationFrame ||
 
         
 //Game objects
-
-//Create player
-var player = new Player(0, canvas.height - 120, 3);
+var player = new Player(canvas.width / 2, canvas.height - 120, 3);
 var bullets = [];
-var aliensMatrix = createMatrix(6, 10);
+var aliensMatrix = createMatrix(5, 11);
+var AlienCanShoot = true;
+var speedgame = 1;
 
 //Lets play
 var then = Date.now();

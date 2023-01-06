@@ -8,8 +8,8 @@ class Player {
         this.y = y;
         this.canshoot = true;
         this.speed = 500;
-        this.fireSpeed = 5;
-
+        this.fireSpeed = 50;
+        this.lives = 3;
         this.image = new Image();
         this.image.src = "./images/Player.png";
         this.image.onload = () => {
@@ -25,16 +25,16 @@ class Player {
         }
     }
 
-    update(dt, keysDown) {
+    update(dt, keysDown, speedgame) {
         //movement
         if (37 in keysDown || 65 in keysDown) { 
-            this.x -= this.speed * dt;
+            this.x -= this.speed * dt * speedgame;
             if (this.x < 0) {
                 this.x = 0;
             }
         }
         if(39 in keysDown || 68 in keysDown) { 
-            this.x += this.speed * dt;
+            this.x += this.speed * dt * speedgame;
             if (this.x + this.width > canvas.width) {
                 this.x = canvas.width - this.width;
             }
@@ -44,7 +44,7 @@ class Player {
             this.canshoot = false;
             setTimeout(() => {
                 this.canshoot = true;
-            }, this.fireSpeed);
+            }, this.fireSpeed / speedgame);
             bullets.push(new Bullet(this.x + this.width / 2, this.y, true));
         }
     }

@@ -8,15 +8,15 @@ class Bullet {
         this.width = 3;
         this.height = 10;
         this.mode = mode;
-        this.speed = 5;
+        this.speed = 400;
     }
     render() {
         ctx.fillStyle = "white";
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
-    update() {
-        if(this.mode) this.y -= this.speed;
-        else this.y += this.speed;
+    update(dt, speedgame) {
+        if(this.mode) this.y -= this.speed * dt * speedgame;
+        else this.y += this.speed * dt * speedgame;
     }
 }
 

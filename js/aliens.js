@@ -13,7 +13,6 @@ class Alien {
         this.width = width;
         this.height = height;
         this.active = true;
-
         this.speed = 100;
 
         this.animFrame = 1;
@@ -48,9 +47,9 @@ class Alien {
         this.interval = setInterval(this.updateImage.bind(this), 1000);
     }
 
-    update(dt) {
+    update(dt , speedgame) {
         if(this.active){
-            this.move(dt);
+            this.move(dt , speedgame);
         }
         
     }
@@ -59,7 +58,7 @@ class Alien {
         this.y += this.height;
     }
 
-    move(dt) {
+    move(dt, speedgame) {
         
         //Collision with the canvas
         if (this.x < 0) {
@@ -80,7 +79,7 @@ class Alien {
             needToGoDown = true;
         }
         // move the alien
-        this.x += this.speed * direction * dt;
+        this.x += this.speed * direction * dt * speedgame * speedgame;
 
 
     }
