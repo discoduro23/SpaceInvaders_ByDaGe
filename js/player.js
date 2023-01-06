@@ -6,7 +6,10 @@ class Player {
     constructor(x, y, scale) {
         this.x = x;
         this.y = y;
+        this.canshoot = true;
         this.speed = 500;
+        this.fireSpeed = 5;
+
         this.image = new Image();
         this.image.src = "./images/Player.png";
         this.image.onload = () => {
@@ -24,22 +27,25 @@ class Player {
 
     update(dt, keysDown) {
         //movement
-        if (37 in keysDown || 65 in keysDown) {
+        if (37 in keysDown || 65 in keysDown) { 
             this.x -= this.speed * dt;
+            if (this.x < 0) {
+                this.x = 0;
+            }
         }
-        if(39 in keysDown || 68 in keysDown) {
+        if(39 in keysDown || 68 in keysDown) { 
             this.x += this.speed * dt;
+            if (this.x + this.width > canvas.width) {
+                this.x = canvas.width - this.width;
+            }
         }
         //Shooting
-        if (32 in keysDown) {
-            bullets.push(new Bullet(this.x + this.width / 2, this.y));
-        }
-        //Collision with the canvas
-        if (this.x < 0) {
-            this.x = 0;
-        }
-        if (this.x + this.width > canvas.width) {
-            this.x = canvas.width - this.width;
+        if (32 in keysDown && this.canshoot) {
+            this.canshoot = false;
+            setTimeout(() => {
+                this.canshoot = true;
+            }, this.fireSpeed);
+            bullets.push(new Bullet(this.x + this.width / 2, this.y, true));
         }
     }
 

@@ -12,6 +12,7 @@ class Alien {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.active = true;
 
         this.speed = 100;
 
@@ -23,7 +24,7 @@ class Alien {
 
     }
     render() {
-        if(this.animFrame1 && this.animFrame2){
+        if(this.animFrame1 && this.animFrame2 && this.active){
             //Will have to change its draw function to animate the player
             if (this.animFrame == 1) {
                 ctx.drawImage(this.animFrame1, this.x, this.y, this.width, this.height);
@@ -48,7 +49,10 @@ class Alien {
     }
 
     update(dt) {
-        this.move(dt);
+        if(this.active){
+            this.move(dt);
+        }
+        
     }
 
     toGoDown() {

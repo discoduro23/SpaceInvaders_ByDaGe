@@ -19,51 +19,63 @@ var update = function (dt) {
     //Update bullets
     for (var i = 0; i < bullets.length; i++) {
         bullets[i].update(dt);
+        if(bullets[i].y < 0 || bullets[i].y > canvas.height){
+            bullets.splice(i, 1);
+        }
     }
-    //Update aliens using foreach
-    aliens.forEach(function (alien) {
-        alien.update(dt);
-        
-    });
+
+    //Update aliens using
+    for (var i = 0; i < aliensMatrix.length; i++) {
+        for (var j = 0; j < aliensMatrix[i].length; j++) {
+            aliensMatrix[i][j].update(dt);
+        }
+    }
+
+    //Game Win
+    if(isAliensMatrixClear(aliensMatrix)){
+        StartNewGame();
+    }
+
     if(needToGoDown){
-        aliens.forEach(function (alien) {
-            alien.toGoDown();
-        });
+        for (var i = 0; i < aliensMatrix.length; i++) {
+            for (var j = 0; j < aliensMatrix[i].length; j++) {
+                aliensMatrix[i][j].toGoDown();
+                
+            }
+        }
         needToGoDown = false;
+    }
+    checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
+};
+
+function createAliens () {
+
+        for (let i = 0; i < 10; i++) {
+            var xpos = i * 40;
+
+            aliensMatrix[0][i] = new Alien(xpos, 30, 40, 20, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
+            aliensMatrix[1][i] = new Alien(xpos, 60, 40, 20, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
+
+            aliensMatrix[2][i] = new Alien(xpos, 90, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+            aliensMatrix[3][i] = new Alien(xpos, 120, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+
+            aliensMatrix[4][i] = new Alien(xpos, 150, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+            aliensMatrix[5][i] = new Alien(xpos, 180, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+
+        }
+
+    //Start all the aliens
+    for (let i = 0; i < aliensMatrix.length; i++) {
+        for (let j = 0; j < aliensMatrix[i].length; j++) {
+            aliensMatrix[i][j].start();
+        }
     }
 
 
 };
 
-
-
-
-function createAliens () {
-
-    aliens = []; //Clear aliens array
-
-     //Create aliens of top row
-    for (var j = 1; j < 3; j++) {
-        for (var i = 0; i < 10; i++) {
-            aliens.push(new Alien(i * 40, 0 + j * 30, 40, 20, "./images/TopEnemy0.png", "./images/TopEnemy1.png"));
-        }
-        for (var i = 0; i < 10; i++) {
-            aliens.push(new Alien(i * 40, 60 + j * 30, 40, 20, "./images/MidEnemy0.png", "./images/MidEnemy1.png"));
-        }
-        for (var i = 0; i < 10; i++) {
-            aliens.push(new Alien(i * 40, 120 + j * 30, 40, 20, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png"));
-        }
-    }
-
-    //Start all the aliens
-    for (var i = 0; i < aliens.length; i++) {
-        aliens[i].start();
-    }
-
-
-}
-
 var StartNewGame = function () {
+    bullets = [];
     createAliens();
 };
 
@@ -98,9 +110,12 @@ var render = function () {
     for (var i = 0; i < bullets.length; i++) {
         bullets[i].render();
     }
-    //Render aliens
-    for (var i = 0; i < aliens.length; i++) {
-        aliens[i].render();
+    //Render aliensMatrix
+    for (var i = 0; i < aliensMatrix.length; i++) {
+        for (var j = 0; j < aliensMatrix[i].length; j++) {
+            if(aliensMatrix[i][j].active)
+                aliensMatrix[i][j].render();
+        }
     }
 };
 
@@ -128,12 +143,13 @@ requestAnimationFrame = w.requestAnimationFrame ||
     canvas.height = window.innerHeight;
   });
 
+        
 //Game objects
 
 //Create player
 var player = new Player(0, canvas.height - 120, 3);
 var bullets = [];
-var aliens = [];
+var aliensMatrix = createMatrix(6, 10);
 
 //Lets play
 var then = Date.now();
