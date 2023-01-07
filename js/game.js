@@ -15,164 +15,164 @@ paintBackground();
 
 var update = function (dt) {
 
-    //Update player
+	//Update player
 
-    player.update(dt, keysDown, speedgame);
+	player.update(dt, keysDown, speedgame);
 
-    //Update bullets
-    for (var i = 0; i < bullets.length; i++) {
-        bullets[i].update(dt, speedgame);
-        if(bullets[i].y < 0 || bullets[i].y > canvas.height){
-            bullets.splice(i, 1);
-        }
-    }
+	//Update bullets
+	for (var i = 0; i < bullets.length; i++) {
+		bullets[i].update(dt, speedgame);
+		if (bullets[i].y < 0 || bullets[i].y > canvas.height) {
+			bullets.splice(i, 1);
+		}
+	}
 
-    //Update aliens using
-    for (var i = 0; i < aliensMatrix.length; i++) {
-        for (var j = 0; j < aliensMatrix[i].length; j++) {
-            aliensMatrix[i][j].update(dt, speedgame);
-        }
-    }
+	//Update aliens using
+	for (var i = 0; i < aliensMatrix.length; i++) {
+		for (var j = 0; j < aliensMatrix[i].length; j++) {
+			aliensMatrix[i][j].update(dt, speedgame);
+		}
+	}
 
-    if(needToGoDown){
-        for (var i = 0; i < aliensMatrix.length; i++) {
-            for (var j = 0; j < aliensMatrix[i].length; j++) {
-                aliensMatrix[i][j].toGoDown();
-                
-            }
-        }
-        needToGoDown = false;
-    }
+	if (needToGoDown) {
+		for (var i = 0; i < aliensMatrix.length; i++) {
+			for (var j = 0; j < aliensMatrix[i].length; j++) {
+				aliensMatrix[i][j].toGoDown();
 
-    //Erase from the alienExplosion array the aliens that are not active
-    for (var i = 0; i < alienExplosion.length; i++) {
-        if(!alienExplosion[i].active){
-            alienExplosion.splice(i, 1);
-        }
-    }
+			}
+		}
+		needToGoDown = false;
+	}
 
-    if(isSoundBGTone){
-        isSoundBGTone = false;
+	//Erase from the alienExplosion array the aliens that are not active
+	for (var i = 0; i < alienExplosion.length; i++) {
+		if (!alienExplosion[i].active) {
+			alienExplosion.splice(i, 1);
+		}
+	}
 
-        console.log("Tone: " + toneIterator);
+	if (isSoundBGTone) {
+		isSoundBGTone = false;
 
-        //Play sound
-        if(toneIterator == 0){
-            sndTone1.play();
-        }
-        else if(toneIterator == 1){
-            sndTone2.play();
-        }
-        else if(toneIterator == 2){
-            sndTone3.play();
-        }
-        else if(toneIterator == 3){
-            sndTone4.play();
-        }
-        else{
-            sndTone1.play();
-        }
+		console.log("Tone: " + toneIterator);
 
-        toneIterator++;
-        if(toneIterator > 3){
-            toneIterator = 0;
-        }
+		//Play sound
+		if (toneIterator == 0) {
+			sndTone1.play();
+		}
+		else if (toneIterator == 1) {
+			sndTone2.play();
+		}
+		else if (toneIterator == 2) {
+			sndTone3.play();
+		}
+		else if (toneIterator == 3) {
+			sndTone4.play();
+		}
+		else {
+			sndTone1.play();
+		}
 
-
-        setTimeout(() => {
-            
-            isSoundBGTone = true;
-        },1000/speedgame);
-        
-    }
+		toneIterator++;
+		if (toneIterator > 3) {
+			toneIterator = 0;
+		}
 
 
-    checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
-    checkCollisionBetweenBulletsAndPlayer(player, bullets);
-    checkCollisionBetweenBulletsAndCover(covers, bullets);
-    AlienShoot(aliensMatrix);
+		setTimeout(() => {
 
-    
+			isSoundBGTone = true;
+		}, 1000 / speedgame);
+
+	}
+
+
+	checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
+	checkCollisionBetweenBulletsAndPlayer(player, bullets);
+	checkCollisionBetweenBulletsAndCover(covers, bullets);
+	AlienShoot(aliensMatrix);
+
+
 };
 
-function paintBackground(){
-    //Use image as background
-    ctx.drawImage(imgBackground, 0, 0, canvas.width, canvas.height);
+function paintBackground() {
+	//Use image as background
+	ctx.drawImage(imgBackground, 0, 0, canvas.width, canvas.height);
 };
 
 var StartNewGame = function () {
-    bullets = [];
+	bullets = [];
 
-    player.lives = 3;
-    player.x = canvas.width / 2 - 20;
-    player.y = canvas.height - 120;
-    createCovers(covers);
-    createAliens();
+	player.lives = 3;
+	player.x = canvas.width / 2 - 20;
+	player.y = canvas.height - 120;
+	createCovers(covers);
+	createAliens();
 };
 
 //Start game
 var start = function () {
-    
-    
-    player.score = 0;
-    speedgame = 1;
-    StartNewGame();
+
+
+	player.score = 0;
+	speedgame = 1;
+	StartNewGame();
 };
 
 var keysDown = {};
 
-addEventListener("keydown", function(e) {
+addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
 }, false);
 
-addEventListener("keyup", function(e) {
+addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
 
 //Render
 var render = function () {
-    
-    //Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    paintBackground();
-    
-    //Render player
-    player.render();
-    
-    //Render bullets
-    for (var i = 0; i < bullets.length; i++) {
-        bullets[i].render();
-    }
-    //Render aliensMatrix
-    for (var i = 0; i < aliensMatrix.length; i++) {
-        for (var j = 0; j < aliensMatrix[i].length; j++) {
-            if(aliensMatrix[i][j].active)
-                aliensMatrix[i][j].render();
-        }
-    }
+	//Clear canvas
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    //Render alienExplosion
-    for (var i = 0; i < alienExplosion.length; i++) {
-        alienExplosion[i].render();
-    }
+	paintBackground();
 
-    //Render covers
-    for (var i = 0; i < covers.length; i++) {
-        covers[i].render();
-    }
+	//Render player
+	player.render();
 
-    //Draw score
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "left";
-    ctx.fillText("Score: " + player.score, 20, 30);
+	//Render bullets
+	for (var i = 0; i < bullets.length; i++) {
+		bullets[i].render();
+	}
+	//Render aliensMatrix
+	for (var i = 0; i < aliensMatrix.length; i++) {
+		for (var j = 0; j < aliensMatrix[i].length; j++) {
+			if (aliensMatrix[i][j].active)
+				aliensMatrix[i][j].render();
+		}
+	}
 
-    //Draw lives
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "left";
-    ctx.fillText("Lives: " + player.lives, 20, 60);
+	//Render alienExplosion
+	for (var i = 0; i < alienExplosion.length; i++) {
+		alienExplosion[i].render();
+	}
+
+	//Render covers
+	for (var i = 0; i < covers.length; i++) {
+		covers[i].render();
+	}
+
+	//Draw score
+	ctx.font = "20px Arial";
+	ctx.fillStyle = "white";
+	ctx.textAlign = "left";
+	ctx.fillText("Score: " + player.score, 20, 30);
+
+	//Draw lives
+	ctx.font = "20px Arial";
+	ctx.fillStyle = "white";
+	ctx.textAlign = "left";
+	ctx.fillText("Lives: " + player.lives, 20, 60);
 
 
 };
@@ -182,66 +182,65 @@ var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-    if(!gameOver)
-    {
-        update(delta / 1000);
-        render();
+	if (!gameOver) {
+		update(delta / 1000);
+		render();
 
-        //Game Win
-        if(isAliensMatrixClear(aliensMatrix)){
-            StartNewGame();
-            speedgame -= 0.4;
-        }   
-    
-        //Game Over
-        if(player.lives <= 0 || isBellowCanvas){
-            clearAlienMatrix(aliensMatrix);
-            bullets = [];
-            gameOver = true;
+		//Game Win
+		if (isAliensMatrixClear(aliensMatrix)) {
+			StartNewGame();
+			speedgame -= 0.4;
+		}
 
-            render();
+		//Game Over
+		if (player.lives <= 0 || isBellowCanvas) {
+			clearAlienMatrix(aliensMatrix);
+			bullets = [];
+			gameOver = true;
+
+			render();
 
 
-            //Draw Game Over
-            ctx.font = "80px Arial";
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
-            ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
+			//Draw Game Over
+			ctx.font = "80px Arial";
+			ctx.fillStyle = "white";
+			ctx.textAlign = "center";
+			ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
 
-            //Show the player score
-            ctx.font = "50px Arial";
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
-            ctx.fillText("Score: " + player.score, canvas.width / 2, canvas.height / 2 + 80);
+			//Show the player score
+			ctx.font = "50px Arial";
+			ctx.fillStyle = "white";
+			ctx.textAlign = "center";
+			ctx.fillText("Score: " + player.score, canvas.width / 2, canvas.height / 2 + 80);
 
-            //Wait 10 seconds to restart the game
-            setTimeout(function() {
-                gameOver = false;
-                isBellowCanvas = false;
-                start();
-            }, 10000);
-        } 
+			//Wait 10 seconds to restart the game
+			setTimeout(function () {
+				gameOver = false;
+				isBellowCanvas = false;
+				start();
+			}, 10000);
+		}
 
-    }
+	}
 
 
 	then = now;
 
 	requestAnimationFrame(main);
 };
- 
+
 // Cross-browser support for requestAnimationFrame
 var w = window;
 requestAnimationFrame = w.requestAnimationFrame ||
- w.webkitRequestAnimationFrame || w.msRequestAnimationFrame 
- || w.mozRequestAnimationFrame;
+	w.webkitRequestAnimationFrame || w.msRequestAnimationFrame
+	|| w.mozRequestAnimationFrame;
 
- window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
+window.addEventListener('resize', function () {
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+});
 
-        
+
 //Game objects
 var player = new Player(canvas.width / 2, canvas.height - 120, 4);
 var bullets = [];
