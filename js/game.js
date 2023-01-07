@@ -162,6 +162,19 @@ var render = function () {
         covers[i].render();
     }
 
+    //Draw score
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "left";
+    ctx.fillText("Score: " + player.score, 20, 30);
+
+    //Draw lives
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "left";
+    ctx.fillText("Lives: " + player.lives, 20, 60);
+
+
 };
 
 // The main game loop
@@ -189,16 +202,16 @@ var main = function () {
             gameOver = true;
 
             //Draw Game Over
-            ctx.font = "30px Arial";
+            ctx.font = "80px Arial";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
 
             //Show the player score
-            ctx.font = "20px Arial";
+            ctx.font = "50px Arial";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
-            ctx.fillText("Score: " + player.score, canvas.width / 2, canvas.height / 2 + 30);
+            ctx.fillText("Score: " + player.score, canvas.width / 2, canvas.height / 2 + 80);
 
             //Wait 10 seconds to restart the game
             setTimeout(function() {

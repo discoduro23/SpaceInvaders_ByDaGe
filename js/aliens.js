@@ -8,13 +8,15 @@ let needToGoDown = false;
 let isBellowCanvas = false;
 
 class Alien {
-    constructor(x, y, width, height, animFrame1, animFrame2) {
+    constructor(x, y, width, height, score, animFrame1, animFrame2) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.active = true;
         this.speed = 100;
+
+        this.scoreWhenDestroyed = score;
 
         this.animFrame = 1;
         this.animFrame1 = new Image();
@@ -112,6 +114,7 @@ class AlienExplosion{
 
         this.time = 0.5;
         this.active = true;
+        
 
         setTimeout(function() {
             this.active = false;
@@ -131,13 +134,13 @@ function createAliens () {
         var xpos = i * 60;
         var ypos = 60;
 
-        aliensMatrix[0][i] = new Alien(xpos, ypos, 48, 24, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
-
-        aliensMatrix[1][i] = new Alien(xpos, ypos + 40, 48, 24, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
-        aliensMatrix[2][i] = new Alien(xpos, ypos + 80, 48, 24, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
-
-        aliensMatrix[3][i] = new Alien(xpos, ypos + 120, 48, 24, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
-        aliensMatrix[4][i] = new Alien(xpos, ypos + 160, 48, 24, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+        aliensMatrix[4][i] = new Alien(xpos, ypos + 160, 48, 24,10, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+        aliensMatrix[3][i] = new Alien(xpos, ypos + 120, 48, 24,10, "./images/BottomEnemy0.png", "./images/BottomEnemy1.png");
+        
+        aliensMatrix[2][i] = new Alien(xpos, ypos + 80, 48, 24,20, "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+        aliensMatrix[1][i] = new Alien(xpos, ypos + 40, 48, 24,20,  "./images/MidEnemy0.png", "./images/MidEnemy1.png");
+        
+        aliensMatrix[0][i] = new Alien(xpos, ypos, 48, 24, 40, "./images/TopEnemy0.png", "./images/TopEnemy1.png");
 
     }
 

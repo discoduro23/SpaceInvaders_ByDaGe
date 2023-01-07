@@ -18,9 +18,10 @@ function checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets) {
                         aliensMatrix[i][j].active = false;
                         bullets.splice(k, 1);
                         speedgame += 0.01;
-                        player.score += 10;
+                        player.score += aliensMatrix[i][j].scoreWhenDestroyed;
                         alienExplosion.push(new AlienExplosion(aliensMatrix[i][j].x, aliensMatrix[i][j].y));
                         sndEnemyKilled.play();
+                        
                     }
                 }
             }
