@@ -1,10 +1,10 @@
 class CoverFragment {
-    constructor(x, y) {
+    constructor(x, y, active) {
         this.x = x;
         this.y = y;
         this.width = 5;
         this.height = 5;
-        this.active = true;
+        this.active = active;
     }
 
     render() {
@@ -22,15 +22,16 @@ class Cover {
 
     render() {
         for (let i = 0; i < this.coverFragments.length; i++) {
-           this.coverFragments[i].render();
+            for (let j = 0; j < this.coverFragments[i].length; j++) {
+                if (this.coverFragments[i][j] !== null)
+                this.coverFragments[i][j].render();
+            }
         }
     }
 }
 
 
 function createCovers(coversArray) {
-    console.log (coversArray);
-
     coversArray.push(new Cover());
     coversArray.push(new Cover());
     coversArray.push(new Cover());
@@ -49,49 +50,55 @@ function createCovers(coversArray) {
 }
 
 function createCoverFragment(posx, posy, square) {
-    var fragmentsArray = [];
+    var fragmentMatrix = [];
+    fragmentMatrix = createMatrix(18, 13);
+
     for (let i = 0; i < 10; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square)+ square*4, canvas.height - posy));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square)+ square*4, canvas.height - posy, true), i, 1);
+
     }
     for (let i = 0; i < 12; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square)+ square*3, canvas.height - posy + square));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square)+ square*3, canvas.height - posy + square, true), i, 2);
     }
+    
     for (let i = 0; i < 14; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square)+ square*2, canvas.height - posy + square*2));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square)+ square*2, canvas.height - posy + square*2, true), i, 3);
     }
     for (let i = 0; i < 16; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square)+ square, canvas.height - posy + square*3));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square)+ square, canvas.height - posy + square*3, true), i, 4);
     }
     for (let i = 0; i < 18; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*4));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*4, true), i, 5);    
     }
     for (let i = 0; i < 18; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*5));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*5, true), i, 6);
     }
     for (let i = 0; i < 18; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*6));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*6, true), i, 7);
     }
     for (let i = 0; i < 18; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*7));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*7, true), i, 8);
     }
     for (let i = 0; i < 18; i++) {
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*8));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*8, true), i, 9);
     }
     for (let i = 0; i < 18; i++) {
         if(i != 7 && i != 8 && i != 9 && i != 10)
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*9));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*9, true), i, 10);
     }
     for (let i = 0; i < 18; i++) {
         if(i!=6 && i != 7 && i != 8 && i != 9 && i != 10 && i != 11)
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*10));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*10, true), i, 11);
     }
     for (let i = 0; i < 18; i++) {
         if(i!=5 && i!=6 && i != 7 && i != 8 && i != 9 && i != 10 && i != 11 && i != 12)
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*11));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*11, true), i, 12);
     }
     for (let i = 0; i < 18; i++) {
         if(i!=5 && i!=6 && i != 7 && i != 8 && i != 9 && i != 10 && i != 11 && i != 12)
-        fragmentsArray.push(new CoverFragment((posx + i * square), canvas.height - posy + square*12));
+        matrixInsertObjectHorizontaly(fragmentMatrix, new CoverFragment((posx + i * square), canvas.height - posy + square*12, true), i, 13);
     }
-    return fragmentsArray;
+
+
+    return fragmentMatrix;
 }

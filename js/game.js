@@ -90,6 +90,8 @@ var update = function (dt) {
     checkCollisionBetweenBulletsAndAliens(aliensMatrix, bullets);
     checkCollisionBetweenBulletsAndPlayer(player, bullets);
     checkCollisionBetweenBulletsAndCover(covers, bullets);
+    checkCollisionBetweenPlayerAndAliens(player, aliensMatrix);
+    checkCollisionBetweenAliensAndCover(covers, aliensMatrix);
     AlienShoot(aliensMatrix);
 
     

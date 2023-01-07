@@ -55,3 +55,7 @@ function matrixLength(matrix) {
 function matrixInsertObject(matrix, object, x, y) {
     matrix[y][x] = object;
 }
+
+function matrixInsertObjectHorizontaly(matrix, object, x, y) {
+  matrix[x][y] = object;
+}

@@ -46,15 +46,249 @@ function checkCollisionBetweenBulletsAndCover(cover, bullets) {
     //Check collision between bullets and cover
     
     for (let i = 0; i < cover.length; i++) {
-        for (let k = 0; k < cover[i].coverFragments.length; k++) {
-            console.log("Collision");
-            if(cover[i].coverFragments[k].active){
-                
-                for (let j = 0; j < bullets.length; j++) {
-                    if (collision(cover[i].coverFragments[k], bullets[j])) {
-                        
-                        bullets.splice(j, 1);
-                        cover[i].coverFragments[k].active = false;
+        for (let j = 0; j < cover[i].coverFragments.length; j++) {
+            for (let k = 0; k < cover[i].coverFragments[j].length; k++) {
+                if (cover[i].coverFragments[j][k] != null) {
+                    if (cover[i].coverFragments[j][k].active) {
+                        for (let l = 0; l < bullets.length; l++) {
+                            if (collision(cover[i].coverFragments[j][k], bullets[l])) {
+                                destroyNearbyCovers(cover, i, j, k);
+                                bullets.splice(l, 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function destroyNearbyCovers(cover, i, x, y) {
+    cover[i].coverFragments[x][y].active = false;
+    if (x-3 >= 0 && y - 4 >= 0) {
+        if (cover[i].coverFragments[x - 3][y - 4] != null) {
+            cover[i].coverFragments[x - 3][y - 4].active = false;
+        }
+    }
+    if (x >= 0 && y - 4 >= 0) {
+        if (cover[i].coverFragments[x][y - 4] != null) {
+            cover[i].coverFragments[x][y - 4].active = false;
+        }
+    }
+    if (x+1 < 18 && y - 4 >= 0) {
+        if (cover[i].coverFragments[x+1][y - 4] != null) {
+            cover[i].coverFragments[x+1][y - 4].active = false;
+        }
+    }
+    if (x+4 < 18 && y - 4 >= 0) {
+        if (cover[i].coverFragments[x+4][y - 4] != null) {
+            cover[i].coverFragments[x+4][y - 4].active = false;
+        }
+    }
+
+    if (x-1 >= 0 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x - 1][y - 3] != null) {
+            cover[i].coverFragments[x - 1][y - 3].active = false;
+        }
+    }
+    if (x >= 0 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x][y - 3] != null) {
+            cover[i].coverFragments[x][y - 3].active = false;
+        }
+    }
+    if (x+1 < 18 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x+1][y - 3] != null) {
+            cover[i].coverFragments[x+1][y - 3].active = false;
+        }
+    }
+    if (x+2 < 18 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x+2][y - 3] != null) {
+            cover[i].coverFragments[x+2][y - 3].active = false;
+        }
+    }
+
+    if (x-2 >= 0 && y - 2 >= 0) {
+        if (cover[i].coverFragments[x - 2][y - 2] != null) {
+            cover[i].coverFragments[x - 2][y - 2].active = false;
+        }
+    }
+    if (x-1 >= 0 && y - 2 >= 0) {
+        if (cover[i].coverFragments[x - 1][y - 2] != null) {
+            cover[i].coverFragments[x - 1][y - 2].active = false;
+        }
+    }
+    if (x >= 0 && y - 2 >= 0) {
+        if (cover[i].coverFragments[x][y - 2] != null) {
+            cover[i].coverFragments[x][y - 2].active = false;
+        }
+    }
+    if (x+1 < 18 && y - 2 >= 0) {
+        if (cover[i].coverFragments[x+1][y - 2] != null) {
+            cover[i].coverFragments[x+1][y - 2].active = false;
+        }
+    }
+    if (x+2 < 18 && y - 2 >= 0) {
+        if (cover[i].coverFragments[x+2][y - 2] != null) {
+            cover[i].coverFragments[x+2][y - 2].active = false;
+        }
+    }
+    if (x+3 < 18 && y - 2 >= 0) {
+        if (cover[i].coverFragments[x+3][y - 2] != null) {
+            cover[i].coverFragments[x+3][y - 2].active = false;
+        }
+    }
+
+    if (x-3 >= 0 && y - 1 >= 0) {
+        if (cover[i].coverFragments[x - 3][y - 1] != null) {
+            cover[i].coverFragments[x - 3][y - 1].active = false;
+        }
+    }
+    if (x-1 >= 0 && y - 1 >= 0) {
+        if (cover[i].coverFragments[x - 1][y - 1] != null) {
+            cover[i].coverFragments[x - 1][y - 1].active = false;
+        }
+    }
+    if (x >= 0 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x][y - 1] != null) {
+            cover[i].coverFragments[x][y - 1].active = false;
+        }
+    }
+    if (x+1 < 18 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x+1][y - 1] != null) {
+            cover[i].coverFragments[x+1][y - 1].active = false;
+        }
+    }
+    if (x+2 < 18 && y - 3 >= 0) {
+        if (cover[i].coverFragments[x+2][y - 1] != null) {
+            cover[i].coverFragments[x+2][y - 1].active = false;
+        }
+    }
+
+    if (x-1 >= 0 && y >= 0) {
+        if (cover[i].coverFragments[x - 1][y] != null) {
+            cover[i].coverFragments[x - 1][y].active = false;
+        }
+    }
+    if (x >= 0 && y >= 0) {
+        if (cover[i].coverFragments[x][y] != null) {
+            cover[i].coverFragments[x][y].active = false;
+        }
+    }
+    if (x+1 < 18 && y >= 0) {
+        if (cover[i].coverFragments[x+1][y] != null) {
+            cover[i].coverFragments[x+1][y].active = false;
+        }
+    }
+    if (x+2 < 18 && y>= 0) {
+        if (cover[i].coverFragments[x+2][y] != null) {
+            cover[i].coverFragments[x+2][y].active = false;
+        }
+    }
+    if (x+4 < 18 && y>= 0) {
+        if (cover[i].coverFragments[x+4][y] != null) {
+            cover[i].coverFragments[x+4][y].active = false;
+        }
+    }
+
+    if (x-2 >= 0 && y + 1 < 13) {
+        if (cover[i].coverFragments[x - 2][y + 1] != null) {
+            cover[i].coverFragments[x - 2][y + 1].active = false;
+        }
+    }
+    if (x-1 >= 0 && y + 1 < 13) {
+        if (cover[i].coverFragments[x - 1][y + 1] != null) {
+            cover[i].coverFragments[x - 1][y + 1].active = false;
+        }
+    }
+    if (x >= 0 && y + 1 < 13) {
+        if (cover[i].coverFragments[x][y + 1] != null) {
+            cover[i].coverFragments[x][y + 1].active = false;
+        }
+    }
+    if (x+1 < 18 && y + 1 < 13) {
+        if (cover[i].coverFragments[x+1][y + 1] != null) {
+            cover[i].coverFragments[x+1][y + 1].active = false;
+        }
+    }
+    if (x+2 < 18 && y + 1 < 13) {
+        if (cover[i].coverFragments[x+2][y + 1] != null) {
+            cover[i].coverFragments[x+2][y + 1].active = false;
+        }
+    }
+    
+    if (x-1 >= 0 && y + 2 < 13) {
+        if (cover[i].coverFragments[x - 1][y + 2] != null) {
+            cover[i].coverFragments[x - 1][y + 2].active = false;
+        }
+    }
+    if (x >= 0 && y + 2 < 13) {
+        if (cover[i].coverFragments[x][y + 2] != null) {
+            cover[i].coverFragments[x][y + 2].active = false;
+        }
+    }
+    if (x+1 < 18 && y + 2 < 13) {
+        if (cover[i].coverFragments[x+1][y + 2] != null) {
+            cover[i].coverFragments[x+1][y + 2].active = false;
+        }
+    }
+    if (x+2 < 18 && y + 2 < 13) {
+        if (cover[i].coverFragments[x+2][y + 2] != null) {
+            cover[i].coverFragments[x+2][y + 2].active = false;
+        }
+    }
+    if (x+3 < 18 && y + 2 < 13) {
+        if (cover[i].coverFragments[x+3][y + 2] != null) {
+            cover[i].coverFragments[x+3][y + 2].active = false;
+        }
+    }
+
+    if (x-3 >= 0 && y + 3 < 13) {
+        if (cover[i].coverFragments[x - 3][y + 3] != null) {
+            cover[i].coverFragments[x - 3][y + 3].active = false;
+        }
+    }
+    if (x >= 0 && y + 3 < 13) {
+        if (cover[i].coverFragments[x][y + 3] != null) {
+            cover[i].coverFragments[x][y + 3].active = false;
+        }
+    }
+    if (x+1 < 18 && y + 3 < 13) {
+        if (cover[i].coverFragments[x+1][y + 3] != null) {
+            cover[i].coverFragments[x+1][y + 3].active = false;
+        }
+    }
+    if (x+4 < 18 && y + 3 < 13) {
+        if (cover[i].coverFragments[x+4][y + 3] != null) {
+            cover[i].coverFragments[x+4][y + 3].active = false;
+        }
+    }
+}
+
+function checkCollisionBetweenPlayerAndAliens(player, aliensMatrix) {
+    //Check collision between player and aliens
+    for (let i = 0; i < aliensMatrix.length; i++) {
+        for (let j = 0; j < aliensMatrix[i].length; j++) {
+            if (collision(player, aliensMatrix[i][j])) {
+                player.lives = 0;
+            }
+        }
+    }
+}
+
+function checkCollisionBetweenAliensAndCover(cover, aliensMatrix) {
+    //Check collision between aliens and cover
+    for (let i = 0; i < cover.length; i++) {
+        for (let j = 0; j < cover[i].coverFragments.length; j++) {
+            for (let k = 0; k < cover[i].coverFragments[j].length; k++) {
+                if (cover[i].coverFragments[j][k] != null) {
+                    if (cover[i].coverFragments[j][k].active) {
+                        for (let l = 0; l < aliensMatrix.length; l++) {
+                            for (let m = 0; m < aliensMatrix[l].length; m++) {
+                                if (collision(cover[i].coverFragments[j][k], aliensMatrix[l][m])) {
+                                    cover[i].coverFragments[j][k].active = false;
+                                }
+                            }
+                        }
                     }
                 }
             }
