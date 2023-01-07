@@ -197,9 +197,10 @@ var main = function () {
         if(player.lives <= 0 || isBellowCanvas){
             clearAlienMatrix(aliensMatrix);
             bullets = [];
+            gameOver = true;
+
             render();
 
-            gameOver = true;
 
             //Draw Game Over
             ctx.font = "80px Arial";

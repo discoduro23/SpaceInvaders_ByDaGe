@@ -17,11 +17,21 @@ class Player {
 			this.height = this.image.height * scale;
         };
 
+        this.imageDead = new Image();
+        this.imageDead.src = "./images/PlayerDead.png";
+        this.imageDead.onload = () => {
+            this.width = this.imageDead.width * scale;
+            this.height = this.imageDead.height * scale;
+        };
         this.score = 0;
     }
 
     render() {
-        if (this.image)
+
+        if(gameOver && this.imageDead){
+            ctx.drawImage(this.imageDead, this.x, this.y, this.width, this.height);
+        }
+        else if (this.image)
         {
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
