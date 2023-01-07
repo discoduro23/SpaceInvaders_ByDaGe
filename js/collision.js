@@ -46,14 +46,15 @@ function checkCollisionBetweenBulletsAndCover(cover, bullets) {
     //Check collision between bullets and cover
     
     for (let i = 0; i < cover.length; i++) {
-        for (let k = 0; k < cover[i].length; k++) {
-            if(cover[i][k].active){
-                console.log("Collision");
+        for (let k = 0; k < cover[i].coverFragments.length; k++) {
+            console.log("Collision");
+            if(cover[i].coverFragments[k].active){
+                
                 for (let j = 0; j < bullets.length; j++) {
-                    if (collision(cover[i][k], bullets[j])) {
+                    if (collision(cover[i].coverFragments[k], bullets[j])) {
                         
                         bullets.splice(j, 1);
-                        cover[i][k].active = false;
+                        cover[i].coverFragments[k].active = false;
                     }
                 }
             }
