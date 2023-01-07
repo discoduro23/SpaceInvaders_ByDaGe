@@ -28,8 +28,6 @@ class Cover {
 }
 
 
-
-
 function createCovers(coversArray) {
     console.log (coversArray);
 
