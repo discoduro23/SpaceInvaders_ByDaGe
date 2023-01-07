@@ -8,7 +8,7 @@ class CoverFragment {
     }
 
     render() {
-        if(this.active){
+        if (this.active) {
             ctx.fillStyle = "green";
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
@@ -39,13 +39,13 @@ function createCovers(coversArray) {
 
     var square = 5;
     var posy = 200;
-    var posx = canvas.width/8;
+    var posx = canvas.width / 8;
     coversArray[0].coverFragments = createCoverFragment(posx, posy, square);
-    var posx = canvas.width/3;
+    var posx = canvas.width / 3;
     coversArray[1].coverFragments = createCoverFragment(posx, posy, square);
-    var posx = 2*canvas.width/3 - square*18 ;
+    var posx = 2 * canvas.width / 3 - square * 18;
     coversArray[2].coverFragments = createCoverFragment(posx, posy, square);
-    var posx = 7*canvas.width/8 - square*18;
+    var posx = 7 * canvas.width / 8 - square * 18;
     coversArray[3].coverFragments = createCoverFragment(posx, posy, square);
 }
 
