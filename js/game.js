@@ -10,6 +10,7 @@ document.body.appendChild(canvas); //Add canvas to body
 var gameOver = false
 var imgBackground = new Image();
 imgBackground.src = "./images/background.png";
+let level = 0;
 
 paintBackground();
 
@@ -104,6 +105,7 @@ function paintBackground() {
 
 var StartNewGame = function () {
 	bullets = [];
+	level += 1;
 
 	player.lives = 3;
 	player.x = canvas.width / 2 - 20;
@@ -115,7 +117,7 @@ var StartNewGame = function () {
 //Start game
 var start = function () {
 
-
+	level = 0;
 	player.score = 0;
 	speedgame = 1;
 	StartNewGame();
@@ -164,17 +166,23 @@ var render = function () {
 		covers[i].render();
 	}
 
-	//Draw score
-	ctx.font = "20px Arial";
+	//Draw score top left
+	ctx.font = "30px Arial";
 	ctx.fillStyle = "white";
 	ctx.textAlign = "left";
 	ctx.fillText("Score: " + player.score, 20, 30);
 
-	//Draw lives
-	ctx.font = "20px Arial";
+	//Draw lives top right
+	ctx.font = "30px Arial";
 	ctx.fillStyle = "white";
-	ctx.textAlign = "left";
-	ctx.fillText("Lives: " + player.lives, 20, 60);
+	ctx.textAlign = "right";
+	ctx.fillText("Lives: " + player.lives, canvas.width - 20, 30);
+
+	//Draw level in the middle
+	ctx.font = "30px Arial";
+	ctx.fillStyle = "white";
+	ctx.textAlign = "center";
+	ctx.fillText("Level: " + level, canvas.width / 2, 30);
 
 
 };
