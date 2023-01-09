@@ -9,11 +9,19 @@ class Saucer {
         this.active = false;
         this.speed = 250;
         this.img = new Image();
-        this.img.src = "images/Saucer.png";
+
+        this.img.src = "img/Saucer.png";
+
         this.img.onload = () => {
             this.render();
         };
     }
+
+    possibleRequestChangeSkin() {
+        if(getRandomIntInclusive(1,10) == 10) this.img.src = "images/AmoSaucer.png";
+        else this.img.src = "images/Saucer.png";
+    }
+
     render() {
         if (this.active) {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
