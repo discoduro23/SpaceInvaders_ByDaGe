@@ -48,15 +48,14 @@ function checkCollisionBetweenBulletsAndCover(cover, bullets) {
     for (let i = 0; i < cover.length; i++) {
         for (let j = 0; j < cover[i].coverFragments.length; j++) {
             for (let k = 0; k < cover[i].coverFragments[j].length; k++) {
-                if (cover[i].coverFragments[j][k] != null) {
-                    if (cover[i].coverFragments[j][k].active) {
+                if (cover[i].coverFragments[j][k] != null && cover[i].coverFragments[j][k].active) {
                         for (let l = 0; l < bullets.length; l++) {
                             if (collision(cover[i].coverFragments[j][k], bullets[l])) {
                                 destroyNearbyCovers(cover, i, j, k);
                                 bullets.splice(l, 1);
                             }
                         }
-                    }
+                    
                 }
             }
         }
