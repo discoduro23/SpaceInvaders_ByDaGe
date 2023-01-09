@@ -7,7 +7,7 @@ class Saucer {
         this.width = 16*4;
         this.height = 8*4;
         this.active = false;
-        this.speed = 350;
+        this.speed = 250;
         this.img = new Image();
         this.img.src = "images/Saucer.png";
         this.img.onload = () => {
@@ -55,7 +55,7 @@ class Saucer {
             saucerspawned = true;
             setTimeout(() => {
                 
-                this.setParameters(canvas.width, this.height + 10, 0, getRandomIntInclusive(50, 500));
+                this.setParameters(canvas.width, this.height + 10, getRandomBinary(), getRandomIntInclusive(50, 500));
             }, getRandomIntInclusive(5000, 10000) / speedgame);
         }
         if (saucerspawn && this.active == true) {

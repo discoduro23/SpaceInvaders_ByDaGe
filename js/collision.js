@@ -295,3 +295,14 @@ function checkCollisionBetweenAliensAndCover(cover, aliensMatrix) {
         }
     }
 }
+
+function checkCollisionBetweenSaucerAndBullet(saucer, bullets) {
+    //Check collision between saucer and bullet
+    for (let i = 0; i < bullets.length; i++) {
+        if (collision(saucer, bullets[i])) {
+            bullets[i].active = false;
+            saucer.active = false;
+            score += saucer.score;
+        }
+    }
+}
