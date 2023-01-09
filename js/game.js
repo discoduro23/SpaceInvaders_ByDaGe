@@ -91,6 +91,7 @@ var update = function (dt) {
     checkCollisionBetweenBulletsAndCover(covers, bullets);
     checkCollisionBetweenPlayerAndAliens(player, aliensMatrix);
     checkCollisionBetweenAliensAndCover(covers, aliensMatrix);
+	checkCollisionBetweenSaucerAndBullet(saucer, bullets);
     AlienShoot(aliensMatrix);
 	saucer.SaucerUpdateAndInstantiate(dt , speedgame , saucerspawned);
 

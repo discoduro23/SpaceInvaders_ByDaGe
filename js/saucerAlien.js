@@ -4,27 +4,38 @@ class Saucer {
         this.y = 0;
         this.mode = 0;
         this.score = 0;
-        this.width = 16*4;
-        this.height = 8*4;
+        this.width = 64;
+        this.height = 32;
         this.active = false;
         this.speed = 250;
-        this.img = new Image();
-
-        this.img.src = "img/Saucer.png";
-
-        this.img.onload = () => {
-            this.render();
+        this.amongus = false;
+        this.image = new Image();
+        this.image.src = "images/Saucer.png";
+        this.image2 = new Image();
+        this.image2.src = "images/AmoSaucer.png";
+        this.image.onload = () => {
+        };
+        this.image2.onload = () => {
         };
     }
 
     possibleRequestChangeSkin() {
-        if(getRandomIntInclusive(1,10) == 10) this.img.src = "images/AmoSaucer.png";
-        else this.img.src = "images/Saucer.png";
+        if(getRandomIntInclusive(1,2) == 2) {
+            console.log("amogus");
+            this.amongus = true;
+        }
+        else{
+            console.log("normal");
+            this.amongus = false;
+        }
     }
 
     render() {
-        if (this.active) {
-            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        if (this.active && !this.amongus) {
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+        else if (this.active && this.amongus) {
+            ctx.drawImage(this.image2, this.x, this.y, this.width, this.height);
         }
     }
 
@@ -38,14 +49,13 @@ class Saucer {
             this.x -= this.speed * dt * speedgame;
             if (this.x < -this.width ) {
                 this.active = false;
-                saucerspawned = false;            
+                          
             }        
         }
         else {
             this.x += this.speed * dt * speedgame;
             if (this.x > canvas.width + this.width) {
                 this.active = false;
-                saucerspawned = false;
             }
         }
     }
@@ -61,13 +71,51 @@ class Saucer {
     SaucerUpdateAndInstantiate(dt, speedgame, saucerspawn) {
         if (!saucerspawn) {
             saucerspawned = true;
+            var timer = getRandomIntInclusive(10000, 15000);
             setTimeout(() => {
+                this.possibleRequestChangeSkin();
+                if (getRandomBinary() == 0){
+                    this.setParameters(canvas.width, this.height + 10, 0, getRandomIntInclusive(50, 500));
+                }
+                else{
+                    this.setParameters(-this.width, this.height + 10, 1, getRandomIntInclusive(50, 500));
+                }
+
                 
-                this.setParameters(canvas.width, this.height + 10, getRandomBinary(), getRandomIntInclusive(50, 500));
-            }, getRandomIntInclusive(5000, 10000) / speedgame);
+
+            }, timer);
+
+            setTimeout(() => {
+                saucerspawned = false;
+            }, timer);
         }
         if (saucerspawn && this.active == true) {
             this.update(dt, speedgame);
         }
     };
+}
+
+class SaucerExplosion {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+		this.width = 64;
+		this.height = 32;
+
+		this.image = new Image();
+		this.image.src = "./images/Explosion.png";
+
+		this.time = 0.5;
+		this.active = true;
+
+
+		setTimeout(function () {
+			this.active = false;
+		}
+			.bind(this), 50);
+	}
+
+	render() {
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+	}
 }
