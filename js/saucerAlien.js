@@ -70,6 +70,8 @@ class Saucer {
 
     SaucerUpdateAndInstantiate(dt, speedgame, saucerspawn) {
         if (!saucerspawn) {
+            if(this.amongus) sndAmongUsSaucer.play();
+            else sndSaucer.play();
             saucerspawned = true;
             var timer = getRandomIntInclusive(10000, 15000);
             setTimeout(() => {
