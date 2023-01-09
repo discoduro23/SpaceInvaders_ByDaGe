@@ -37,6 +37,11 @@ class Player {
 	}
 
 	update(dt, keysDown, speedgame) {
+
+		if(isKonamiCode){
+			this.fireSpeed = 50;
+		}
+
 		//movement
 		if (37 in keysDown || 65 in keysDown) {
 			this.x -= this.speed * dt * speedgame;
@@ -60,7 +65,4 @@ class Player {
 			sndShoot.play();
 		}
 	}
-
-
-
 }

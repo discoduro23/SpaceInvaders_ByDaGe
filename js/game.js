@@ -55,8 +55,6 @@ var update = function (dt) {
 	if (isSoundBGTone) {
 		isSoundBGTone = false;
 
-		console.log("Tone: " + toneIterator);
-
 		//Play sound
 		if (toneIterator == 0) {
 			sndTone1.play();
@@ -124,9 +122,56 @@ var start = function () {
 };
 
 var keysDown = {};
+var keysRecord = [];
+var isKonamiCode = false;
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
+	
+	//Konami code easter egg. Only start recording if the user pressed the up button. Erase the keysRecord if the combination is not correct to optimize.
+	if (keysRecord.length == 0 && e.keyCode == 38) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 1 && e.keyCode == 38) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 2 && e.keyCode == 40) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 3 && e.keyCode == 40) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 4 && e.keyCode == 37) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 5 && e.keyCode == 39) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 6 && e.keyCode == 37) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 7 && e.keyCode == 39) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 8 && e.keyCode == 66) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 9 && e.keyCode == 65) {
+		keysRecord.push(e.keyCode);
+	}
+	else if (keysRecord.length == 10 && e.keyCode == 13) {
+		keysRecord.push(e.keyCode);
+	}
+	else {
+		keysRecord = [];
+		isKonamiCode = false;
+	}
+
+	if (keysRecord.length == 11) {
+		keysRecord = [];
+		isKonamiCode = true;
+
+	}
 }, false);
 
 addEventListener("keyup", function (e) {

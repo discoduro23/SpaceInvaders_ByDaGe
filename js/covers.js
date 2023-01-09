@@ -23,7 +23,7 @@ class Cover {
     render() {
         for (let i = 0; i < this.coverFragments.length; i++) {
             for (let j = 0; j < this.coverFragments[i].length; j++) {
-                if (this.coverFragments[i][j] !== null)
+                if (this.coverFragments[i][j] != null)
                 this.coverFragments[i][j].render();
             }
         }
