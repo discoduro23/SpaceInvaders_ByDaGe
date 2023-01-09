@@ -82,7 +82,7 @@ var update = function (dt) {
 
 			isSoundBGTone = true;
 		}, 1000 / speedgame);
-
+		
 	}
 
 
@@ -92,6 +92,7 @@ var update = function (dt) {
     checkCollisionBetweenPlayerAndAliens(player, aliensMatrix);
     checkCollisionBetweenAliensAndCover(covers, aliensMatrix);
     AlienShoot(aliensMatrix);
+	saucer.SaucerUpdateAndInstantiate(dt , speedgame , saucerspawned);
 
 
 };
@@ -100,6 +101,12 @@ function paintBackground() {
 	//Use image as background
 	ctx.drawImage(imgBackground, 0, 0, canvas.width, canvas.height);
 };
+
+function getRandomIntInclusive(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+  }
 
 var StartNewGame = function () {
 	bullets = [];
@@ -229,7 +236,8 @@ var render = function () {
 	ctx.textAlign = "center";
 	ctx.fillText("Level: " + level, canvas.width / 2, 30);
 
-
+	// Draw saucer
+	saucer.render();
 };
 
 // The main game loop
@@ -304,7 +312,8 @@ var AlienCanShoot = true;
 var speedgame = 1;
 var alienExplosion = [];
 var covers = [];
-
+var saucer = new Saucer();
+var saucerspawned = false;
 var sndTone1 = new Audio("./sounds/fastinvader1.wav");
 sndTone1.volume = 0.3;
 var sndTone2 = new Audio("./sounds/fastinvader2.wav");
