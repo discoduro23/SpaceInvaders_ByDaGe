@@ -116,9 +116,8 @@ function getRandomBinary() {
 var StartNewGame = function () {
 	bullets = [];
 	level += 1;
-
-	player.lives = 3;
-	player.x = canvas.width / 2 - 20;
+	if (player.lives<3)	player.lives++;
+	player.x = 50;
 	player.y = canvas.height - 120;
 	createCovers(covers);
 	createAliens();
@@ -126,7 +125,7 @@ var StartNewGame = function () {
 
 //Start game
 var start = function () {
-
+	player.lives = 3;
 	level = 0;
 	player.score = 0;
 	speedgame = 1;
@@ -310,7 +309,7 @@ window.addEventListener('resize', function () {
 
 
 //Game objects
-var player = new Player(canvas.width / 2, canvas.height - 120, 4);
+var player = new Player(50, canvas.height - 120, 4);
 var bullets = [];
 var aliensMatrix = createMatrix(5, 11);
 var AlienCanShoot = true;

@@ -7,6 +7,7 @@ let direction = 1;
 let needToGoDown = false;
 let isBellowCanvas = false;
 
+
 class Alien {
 	constructor(x, y, width, height, score, animFrame1, animFrame2) {
 		this.x = x;
@@ -14,16 +15,15 @@ class Alien {
 		this.width = width;
 		this.height = height;
 		this.active = true;
-		this.speed = 100;
-
+		this.speed = 20;
 		this.scoreWhenDestroyed = score;
-
+		this.xsmooth = x;
 		this.animFrame = 1;
 		this.animFrame1 = new Image();
 		this.animFrame1.src = animFrame1;
 		this.animFrame2 = new Image();
 		this.animFrame2.src = animFrame2;
-
+		this.canmoove = true;
 		this.isAnimating = true;
 
 	}
@@ -49,39 +49,42 @@ class Alien {
 	}
 
 	start() {
-
 	}
 
 	update(dt, speedgame) {
-		if (this.active) {
-			this.move(dt, speedgame);
-		}
+		
 
 		if (this.isAnimating) {
 			this.isAnimating = false;
 			setTimeout(() => {
+				this.x = this.xsmooth;
 				this.updateImage();
 				this.isAnimating = true;
 			}, 1000 / speedgame);
 
 		}
 
+		if (this.active) {
+			this.move(dt, speedgame);
+		}
+
 	}
 
 	toGoDown() {
 		this.y += this.height;
+		this.xsmooth = this.x;
 	}
 
 	move(dt, speedgame) {
 
 
 		// if we are going to the right and we reach the right edge of the screen, change direction and go down one "level"
-		if (this.x + this.width >= canvas.width && direction == 1) {
+		if (this.xsmooth + this.width >= canvas.width && direction == 1) {
 			direction = -1;
 			needToGoDown = true;
 		}
 		// if we are going to the left and we reach the left edge of the screen, change direction and go down one "level"
-		if (this.x <= 0 && direction == -1) {
+		if (this.xsmooth <= 0 && direction == -1) {
 			direction = 1;
 			needToGoDown = true;
 		}
@@ -93,11 +96,11 @@ class Alien {
 		}
 
 		// move the alien
-		this.x += this.speed * direction * dt * speedgame * speedgame;
-
+		this.xsmooth += this.speed * direction * dt * speedgame * speedgame;
+		
+			
 
 	}
-
 
 
 }
@@ -164,7 +167,7 @@ function AlienShoot(aliensMatrix) {
 		}
 		setTimeout(function () {
 			AlienCanShoot = true;
-		}, 1000);
+		}, 1000 / (speedgame * level/2) );
 	}
 }
 
