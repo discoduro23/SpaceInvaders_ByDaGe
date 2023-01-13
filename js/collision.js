@@ -297,14 +297,16 @@ function checkCollisionBetweenAliensAndCover(cover, aliensMatrix) {
 
 function checkCollisionBetweenSaucerAndBullet(saucer, bullets) {
     //Check collision between saucer and bullet
-    for (let i = 0; i < bullets.length; i++) {
-        if (collision(saucer, bullets[i])) {
-            bullets.splice(i, 1);
-            saucer.active = false;
-            player.score += saucer.score;
-            alienExplosion.push(new SaucerExplosion(saucer.x, saucer.y));
-            console.log ("Saucer destroyed: " + saucer.score + " points");
-            sndEnemyKilled.play();
+    if(saucer.active){
+        for (let i = 0; i < bullets.length; i++) {
+            if (collision(saucer, bullets[i])) {
+                bullets.splice(i, 1);
+                saucer.active = false;
+                player.score += saucer.score;
+                alienExplosion.push(new SaucerExplosion(saucer.x, saucer.y));
+                console.log ("Saucer destroyed: " + saucer.score + " points");
+                sndEnemyKilled.play();
+            }
         }
     }
 }
