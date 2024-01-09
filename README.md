@@ -30,3 +30,5 @@ Player, with its constructor(), update() and render() functions.
 - **Any deviation from any of these points (folder structure and/or the required js) will
 be penalized.**
 - Tip: Use our breakout game as a starting point.
+
+ADVISE: It is a simple implementation, that can be forked only with educational purposes and NOT TO COPY MY WORK.
